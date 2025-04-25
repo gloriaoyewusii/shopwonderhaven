@@ -83,6 +83,7 @@ class TestSellerSerialiser(TestCase):
 
         self.assertEqual(registered_seller.first_name, "John")
         self.assertEqual(SellerRepo.count_sellers(), 1)
+        self.assertEqual(registered_seller.id, 1)
 #
     def test_that_seller_can_submit_item(self):
         seller_service = SellerService()
