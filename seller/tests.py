@@ -102,7 +102,7 @@ class TestSellerSerialiser(TestCase):
         seller_service.submit_item(item)
         self.assertEqual(ItemRepo.count_items(), 1)
 
-    def test_that_when_item_is_submitted_item_review_status_is_pending(self):
+    def test_that_item_is_submitted_item_when_seller_views_review_status_returns_pending(self):
         seller_service = SellerService
         seller1 = {
             "first_name": "Jane",
@@ -129,33 +129,24 @@ class TestSellerSerialiser(TestCase):
             "quantity": 2
         }
         seller_service.submit_item(item2)
-        self.assertEqual("Pending", seller_service.view_status(1))
-        self.assertEqual("Pending", seller_service.view_status(2))
+        self.assertEqual("Pending", seller_service.view_review_status(1))
+        self.assertEqual("Pending", seller_service.view_review_status(2))
 
 
+    def test_that_item_cannot_be_submitted_by_non_registered_seller(self):
+        item = {
+            "seller_id": 1,
+            "title": "Paolo Venini Italian Mid-Century Glass Scroll Chandelier",
+            "description": """Italian Mid-Century (1940s) clear glass chandelier with 6 upright scrolls & 6 scroll
+                   form arms holding large round bowl form shades with glass drops and emanating from a tiered center shaft. (PAOLO VENINI).
+                   """,
+            "starting_price": 18500.00,
+            "quantity": 1
+        }
+        item_repo = ItemRepo()
+        seller_service = SellerService()
+        with self.assertRaises(ValidationError):
+            seller_service.submit_item(item)
+        self.assertEqual(item_repo.count_items(), 0)
 
 
-#     def test_that_seller_cannot_register_with_empty_password(self):
-#         seller_service = SellerService()
-#         seller1 = {
-#             "first_name": "John",
-#             "last_name": "Doe",
-#             "email": "jdoe@gmail.com",
-#             "password": ""
-#         }
-#         self.assertEqual(seller_service.register(seller1), None)
-#
-#     def test_that_seller_cannot_register_with_wrong_email_format(self):
-#         seller_service = SellerService()
-#         seller1 = {
-#             "first_name": "John",
-#             "last_name": "Doe",
-#             "email": "jdoegmail@.com",
-#             "password": "password"
-#         }
-#         with self.assertRaises(ValidationError):
-#             seller_service.register(seller1)
-#
-#             self.assertEqual(seller_service.register(seller1), None)
-#
-# # Create your tests here.

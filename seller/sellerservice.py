@@ -21,27 +21,20 @@ class SellerService(ServiceInterface):
         else:
             raise ValidationError(seller_serialiser.errors)
 
-
-
-
-    @staticmethod
-    def validate_seller_details(seller_info):
-        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$'
-        if not re.match(pattern, seller_info.email):
-            raise ValidationError('Invalid email')
-        if seller_info.email is None or seller_info.email == '':
-            raise Exception('Email cannot be empty')
-        if seller_info.password is None or seller_info.password == '':
-            raise Exception('Password cannot be empty')
-
     @staticmethod
     def submit_item(item_data):
-        item_info = Item.objects.create(**item_data)
-        ItemRepo.save_item_to_repo(item_info)
-        return item_info
+        # item_info = Item.objects.create(**item_data)
+        # sellers_id = item_info.seller_id
+        if Seller.objects.filter(id=item_data["seller_id"]).exists():
+            # saved_item = Item.objects.create(**item_data)
+            saved_item =  ItemRepo.save_item_to_repo(**item_data)
+            return saved_item
+        else:
+            raise ValidationError("Seller is not registered")
+
 
     @staticmethod
-    def view_status(item_id):
+    def view_review_status(item_id):
         item = Item.objects.get(id=item_id)
         if item.status == 'pending':
             return 'Pending'
