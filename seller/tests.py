@@ -2,11 +2,10 @@
 from django.test import TestCase
 from rest_framework.exceptions import ValidationError
 
-import seller
 from item.itemrepo import ItemRepo
 from seller.sellerrepo import SellerRepo
 from seller.sellerservice import SellerService
-from seller.serialiser import SellerSerializer
+
 
 
 class TestSellerService(TestCase):
@@ -85,7 +84,7 @@ class TestSellerSerialiser(TestCase):
         self.assertEqual(SellerRepo.count_sellers(), 1)
         self.assertEqual(registered_seller.id, 1)
 #
-    def test_that_seller_can_submit_item(self):
+    def test_that_seller_can_submit_item_for_review(self):
         seller_service = SellerService()
         seller1 = {
             "first_name": "Jane",
@@ -98,11 +97,44 @@ class TestSellerSerialiser(TestCase):
         item = {
             "title":"Rare home jewels",
             "description":"A beauty, rare and remembered fondly for its starry allure.",
-            "starting_price":"925,000"
+            "starting_price":925000.00
         }
         seller_service.submit_item(item)
         self.assertEqual(ItemRepo.count_items(), 1)
-#
+
+    def test_that_when_item_is_submitted_item_review_status_is_pending(self):
+        seller_service = SellerService
+        seller1 = {
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "jdoe@gmail.com",
+            "password": "password"
+        }
+        seller_service.register(seller1)
+        #
+        item = {
+            "seller_id":1,
+            "title": "Rare home jewels",
+            "description": "A beauty, rare and remembered fondly for its starry allure.",
+            "starting_price": 925000.00,
+            "quantity": 1
+        }
+        seller_service.submit_item(item)
+
+        item2 = {
+            "seller_id": 1,
+            "title": "Pride and Prejudice, first edition",
+            "description": "1867 copy of first edition of Jane Austen",
+            "starting_price": 5000000.00,
+            "quantity": 2
+        }
+        seller_service.submit_item(item2)
+        self.assertEqual("Pending", seller_service.view_status(1))
+        self.assertEqual("Pending", seller_service.view_status(2))
+
+
+
+
 #     def test_that_seller_cannot_register_with_empty_password(self):
 #         seller_service = SellerService()
 #         seller1 = {

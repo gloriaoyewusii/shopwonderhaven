@@ -39,3 +39,13 @@ class SellerService(ServiceInterface):
         item_info = Item.objects.create(**item_data)
         ItemRepo.save_item_to_repo(item_info)
         return item_info
+
+    @staticmethod
+    def view_status(item_id):
+        item = Item.objects.get(id=item_id)
+        if item.status == 'pending':
+            return 'Pending'
+        elif item.status == 'approved':
+            return 'Approved'
+        else:
+            return 'Rejected'
