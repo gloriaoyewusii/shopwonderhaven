@@ -39,7 +39,7 @@ class TestReviewerService(TestCase):
         rev_repo = ReviewersRepo()
         self.assertEqual(rev_repo.count_reviewer(), 1)
 
-    def test_that_when_registered_seller_submits_item_reviewer_can_items_pending_review(self):
+    def test_that_registered_seller_submits_item_reviewer_views_pending_reviews_when_reviewer_approves_item_returns_approved(self):
         reviewer_service = ReviewerServiceImpl()
         seller_service = SellerService()
         seller1 = {
@@ -75,7 +75,7 @@ class TestReviewerService(TestCase):
             "starting_price": 18500.00,
             "quantity": 1
         }
-        seller_service.submit_item(item)
+        submitted_item = seller_service.submit_item(item)
         item_repo = ItemRepo()
 
         self.assertEqual(item_repo.count_items(), 1)
@@ -86,6 +86,8 @@ class TestReviewerService(TestCase):
             self.assertEqual(pending_items[index].title, item["title"])
 
         self.assertEqual(reviewer_service.approve_item(1), {"Review Status": "Approved"})
+
+        self.assertEqual(seller_service.view_review_status(submitted_item.id), {"Review Status": "Approved"})
 
 
 # Create your tests here.

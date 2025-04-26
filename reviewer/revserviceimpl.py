@@ -27,6 +27,12 @@ class ReviewerServiceImpl(ReviewerServiceInterface):
                 pending_reviews.append(item)
         return pending_reviews
 
-
-
-
+    @staticmethod
+    def approve_item(item_id):
+        item = Item.objects.get(id=item_id)
+        if item.status == Status.PENDING and item.status != Status.REJECTED:
+            item.status = Status.APPROVED
+            item.save()
+            return {"Review Status": "Approved"}
+        elif item.status == Status.APPROVED:
+            return {"Review Status": "Approved"}

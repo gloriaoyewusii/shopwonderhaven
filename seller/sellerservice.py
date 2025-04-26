@@ -1,4 +1,3 @@
-import re
 
 from rest_framework.exceptions import ValidationError
 
@@ -23,22 +22,42 @@ class SellerService(ServiceInterface):
 
     @staticmethod
     def submit_item(item_data):
-        # item_info = Item.objects.create(**item_data)
-        # sellers_id = item_info.seller_id
-        if Seller.objects.filter(id=item_data["seller_id"]).exists():
+        try:
+            seller_id = item_data["seller_id"]
+            if not Seller.objects.get(id=seller_id):
+            # if not Seller.objects.filter(id=seller_id).exists():
+                raise ValidationError("Seller is not registered")
+            else:
+                item_info = Item.objects.create(**item_data)
+                return item_info
+        except Exception as e:
+            raise ValidationError(e)
+
+
+
+        # else:
+        #     raise ValidationError("Seller is not registered")
+
+            # if not Seller.objects.get(id=item.seller_id):
+            #     raise ValidationError("Seller is not registered")
+            # else:
+            #     saved_item = ItemRepo.save_item_to_repo(**item_data)
+            #     return saved_item
+
+
+        # if Seller.objects.get(id=item_data.get(seller_id=)):
             # saved_item = Item.objects.create(**item_data)
-            saved_item =  ItemRepo.save_item_to_repo(**item_data)
-            return saved_item
-        else:
-            raise ValidationError("Seller is not registered")
+
+            # else:
+
 
 
     @staticmethod
     def view_review_status(item_id):
         item = Item.objects.get(id=item_id)
         if item.status == 'pending':
-            return 'Pending'
+            return {"Review Status: Pending"}
         elif item.status == 'approved':
-            return 'Approved'
+            return {"Review Status": "Approved"}
         else:
-            return 'Rejected'
+            return '{"Review Status": "Rejected"}'

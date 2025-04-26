@@ -6,7 +6,8 @@ class ReviewerServiceInterface(models.Model):
     @staticmethod
     def register_reviewer(reviewer):
         pass
-    def approve_item(self):
+    @staticmethod
+    def approve_item(item_id):
         pass
     def reject_item(self):
         pass
