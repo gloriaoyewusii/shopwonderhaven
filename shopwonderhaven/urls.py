@@ -17,6 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from seller import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('register-seller/', views.register_seller, name='register_seller'),
+
+    path('submit-item/', views.submit_item, name='submit_item'),
+
+    path('view-review-status/', views.view_review_status, name='view_review_status'),
 ]
