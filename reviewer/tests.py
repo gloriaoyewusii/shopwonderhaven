@@ -85,6 +85,7 @@ class TestReviewerService(TestCase):
         for index in range(len(pending_items)):
             self.assertEqual(pending_items[index].title, item["title"])
 
+        self.assertEqual(reviewer_service.approve_item(1), {"Review Status": "Approved"})
 
 
 # Create your tests here.
