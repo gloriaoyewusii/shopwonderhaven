@@ -1,6 +1,7 @@
 from rest_framework.exceptions import ValidationError
 
 from item.models import Item
+from item.serialiser import ItemSerializer
 from item.status import Status
 from reviewer.revserviceinterface import ReviewerServiceInterface
 from reviewer.serialiser import ReviewerSerializer
@@ -25,7 +26,10 @@ class ReviewerServiceImpl(ReviewerServiceInterface):
         for item in items:
             if item.status == Status.PENDING:
                 pending_reviews.append(item)
-        return pending_reviews
+
+        item_serializer = ItemSerializer(pending_reviews, many=True)
+        return item_serializer.data
+
 
     @staticmethod
     def approve_item(item_id):

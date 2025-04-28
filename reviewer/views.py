@@ -15,10 +15,16 @@ def register_reviewer(request):
 
 
 @api_view(['GET'])
-def view_pending_review_items():
+def view_pending_review_items(request):
     pending_reviews = ReviewerServiceImpl.view_pending_reviews()
     print(pending_reviews)
     return Response({'pending_reviews': pending_reviews}, status=status.HTTP_200_OK)
 
+@api_view(['PUT'])
+def approve_item(request):
+    item_id = request.data
+    print(item_id)
+    ReviewerServiceImpl.approve_item(item_id)
+    return Response(ReviewerServiceImpl.approve_item(item_id), status=status.HTTP_200_OK)
 
 # Create your views here.

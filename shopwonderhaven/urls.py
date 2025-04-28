@@ -34,4 +34,6 @@ urlpatterns = [
     path('register-reviewer/', reviewer.views.register_reviewer, name='register_reviewer'),
 
     path('view-pending-review-items/', reviewer.views.view_pending_review_items, name='view_pending_review_items'),
+
+    path('approve-item/', reviewer.views.approve_item, name='approve_item'),
 ]
