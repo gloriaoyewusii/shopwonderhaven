@@ -28,4 +28,5 @@ def view_review_status(request):
     SellerService.view_review_status(item_data)
     return Response(SellerService.view_review_status(item_data), status=status.HTTP_200_OK)
 
+
 # Create your views here.

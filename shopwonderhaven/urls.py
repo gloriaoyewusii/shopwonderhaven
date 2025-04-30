@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+import buyer
 import reviewer
 import seller
+from buyer import views
 from seller import views
 from reviewer import views
 
@@ -38,4 +40,6 @@ urlpatterns = [
     path('approve-item/', reviewer.views.approve_item, name='approve_item'),
 
     path('reject-item/', reviewer.views.reject_item, name='reject_item'),
+
+    path('register-buyer/', buyer.views.register_buyer, name='register_buyer'),
 ]
