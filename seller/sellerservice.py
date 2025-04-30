@@ -23,11 +23,15 @@ class SellerService(ServiceInterface):
     @staticmethod
     def submit_item(item_data):
         try:
-            seller_id = item_data["seller_id"]
-            if not Seller.objects.get(id=seller_id):
+            seller_id = item_data.get("seller")
+            seller = Seller.objects.get(id=seller_id)
+
+            # if not Seller.objects.get(id=seller_id):
             # if not Seller.objects.filter(id=seller_id).exists():
+            if seller is None:
                 raise ValidationError("Seller is not registered")
             else:
+                item_data["seller"] = seller
                 item_info = Item.objects.create(**item_data)
                 return item_info
         except Exception as e:
@@ -50,14 +54,12 @@ class SellerService(ServiceInterface):
 
             # else:
 
-
-
     @staticmethod
     def view_review_status(item_id):
         item = Item.objects.get(id=item_id)
         if item.status == 'pending':
-            return {"Review Status: Pending"}
+            return {item.title: "Pending"}
         elif item.status == 'approved':
-            return {"Review Status": "Approved"}
+            return {item.title: "Approved"}
         else:
-            return '{"Review Status": "Rejected"}'
+            return {item.title: "Rejected"}

@@ -27,4 +27,12 @@ def approve_item(request):
     ReviewerServiceImpl.approve_item(item_id)
     return Response(ReviewerServiceImpl.approve_item(item_id), status=status.HTTP_200_OK)
 
+@api_view(['PUT'])
+def reject_item(request):
+    item_id = request.data
+    print(item_id)
+    ReviewerServiceImpl.reject_item(item_id)
+    return Response(ReviewerServiceImpl.reject_item(item_id), status=status.HTTP_200_OK)
+
+
 # Create your views here.

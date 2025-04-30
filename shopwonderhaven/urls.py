@@ -36,4 +36,6 @@ urlpatterns = [
     path('view-pending-review-items/', reviewer.views.view_pending_review_items, name='view_pending_review_items'),
 
     path('approve-item/', reviewer.views.approve_item, name='approve_item'),
+
+    path('reject-item/', reviewer.views.reject_item, name='reject_item'),
 ]

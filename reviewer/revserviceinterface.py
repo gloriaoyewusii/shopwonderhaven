@@ -9,7 +9,8 @@ class ReviewerServiceInterface(models.Model):
     @staticmethod
     def approve_item(item_id):
         pass
-    def reject_item(self):
+    @staticmethod
+    def reject_item(item_id):
         pass
     @staticmethod
     def view_pending_reviews():

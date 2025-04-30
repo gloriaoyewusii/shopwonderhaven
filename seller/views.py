@@ -21,7 +21,11 @@ def submit_item(request):
     SellerService.submit_item(item_data)
     return Response({'message': 'Item submitted'}, status=status.HTTP_200_OK)
 
-def view_review_status(item_id):
-    return SellerService.view_review_status(item_id)
+@api_view(['GET'])
+def view_review_status(request):
+    item_data = request.data
+    print(item_data)
+    SellerService.view_review_status(item_data)
+    return Response(SellerService.view_review_status(item_data), status=status.HTTP_200_OK)
 
 # Create your views here.

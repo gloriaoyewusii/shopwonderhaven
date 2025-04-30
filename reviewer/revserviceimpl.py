@@ -37,6 +37,16 @@ class ReviewerServiceImpl(ReviewerServiceInterface):
         if item.status == Status.PENDING and item.status != Status.REJECTED:
             item.status = Status.APPROVED
             item.save()
-            return {"Review Status": "Approved"}
+            return {item.title: "Approved"}
         elif item.status == Status.APPROVED:
-            return {"Review Status": "Approved"}
+            return {item.title: "Approved"}
+
+    @staticmethod
+    def reject_item(item_id):
+        item = Item.objects.get(id=item_id)
+        if item.status == Status.PENDING and item.status != Status.APPROVED:
+            item.status = Status.REJECTED
+            item.save()
+            return {item.title: "Rejected"}
+        elif item.status == Status.REJECTED:
+            return {item.title: "Rejected"}
