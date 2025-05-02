@@ -9,5 +9,5 @@ class BuyerInterface(models.Model):
        pass
 
     @staticmethod
-    def view_available_items():
+    def view_all_items():
         pass

@@ -13,4 +13,14 @@ def register_buyer(request):
     BuyerService.register(buyer_data)
     return Response({'message': 'Registration successful'}, status=status.HTTP_201_CREATED)
 
+@api_view(['GET'])
+def get_all_items(request):
+    return Response(BuyerService.view_all_items(), status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def update_item(request):
+    item_data = request.data
+    print(item_data)
+
+
 # Create your views here.

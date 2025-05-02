@@ -42,4 +42,6 @@ urlpatterns = [
     path('reject-item/', reviewer.views.reject_item, name='reject_item'),
 
     path('register-buyer/', buyer.views.register_buyer, name='register_buyer'),
+
+    path('view-all-items/', buyer.views.get_all_items, name='view_all_items'),
 ]
